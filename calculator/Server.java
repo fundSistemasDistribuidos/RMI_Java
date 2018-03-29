@@ -1,31 +1,20 @@
-
-
-import java.rmi.Naming;
-import java.rmi.RemoteException;
-// import java.rmi.RMISecurityManager;
-import java.rmi.server.*;
-
-
 import java.rmi.registry.Registry;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 /*
-Classname: ServerDemo
+Classname: Server
 Purpose: The RMI server.
 */
-public class Server extends UnicastRemoteObject
-  implements Calc {
-
-  /**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+public class Server extends UnicastRemoteObject implements Calc {
 
 public Server() throws RemoteException {}
 
+// Remote method
 public Integer calc(String op, Integer op1, Integer op2) {
     Integer resp = 0;
+
+    System.out.println("Iniciando Cálculo!");
     switch(op){
       case "+":
         resp = op1 + op2;
@@ -47,15 +36,15 @@ public Integer calc(String op, Integer op1, Integer op2) {
 
   public static void main(String args[]) {
     try {
+      Integer port = 9999;
+
       // Creates an object of the Server class.
       Server obj = new Server();
-      Registry registry = LocateRegistry.createRegistry(9999);
+      Registry registry = LocateRegistry.getRegistry(port);
       registry.bind("Calc", obj);
 
 
-      // // Bind this object instance to the name "Server".
-      // Naming.rebind("Hello", obj);
-      System.out.println("Ouvindo na porta 9999");
+      System.out.println("Ouvindo na porta " + port);
     }
     catch (Exception ex) {
       System.out.println("error: " + ex.getMessage());

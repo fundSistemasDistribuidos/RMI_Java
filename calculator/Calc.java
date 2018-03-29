@@ -2,7 +2,7 @@ import java.rmi.*;
 import java.rmi.RemoteException;
 
 /*
-Classname: Hello
+Classname: Calc
 Comment: The remote interface.
 */
 public interface Calc extends Remote {
