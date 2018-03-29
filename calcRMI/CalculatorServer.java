@@ -26,10 +26,10 @@ implements Calculator
     {
         try
         {
-
             CalculatorServer c = new CalculatorServer();
+            //Criando um registro
             Registry registry = LocateRegistry.getRegistry();
-            // CalculatorServer stub = (CalculatorServer) UnicastRemoteObject.exportObject(c, 0);
+            //Registrando o servidor e no nome do servidor
             registry.rebind("Add", c);
         }
         catch (Exception ex)
