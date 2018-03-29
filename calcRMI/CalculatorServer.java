@@ -1,21 +1,41 @@
 import java.rmi.Naming;
+import java.rmi.RemoteException;
+// import java.rmi.RMISecurityManager;
+import java.rmi.server.*;
 
-public class CalculatorServer
+
+import java.rmi.registry.Registry;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.RemoteException;
+import java.rmi.server.UnicastRemoteObject;
+
+
+public class CalculatorServer extends UnicastRemoteObject
+implements Calculator
 {
-    CalculatorServer()
+
+    private static final long serialVersionUID = 1L;
+
+    public long add(long a, long b) throws RemoteException {
+        return a+b;
+    }
+
+    public CalculatorServer() throws RemoteException{}
+
+    public static void main(String[] args)
     {
         try
         {
-            Calculator c = new CalculatorImple();
-            Naming.rebind("RMI://127.0.0.1:1020/CalculatorService", c);
+            CalculatorServer c = new CalculatorServer();
+            //Criando um registro
+            Registry registry = LocateRegistry.getRegistry();
+            //Registrando o servidor e no nome do servidor
+            registry.rebind("Add", c);
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            e.printStackTrace();
+            System.out.println("error: " + ex.getMessage());
+            ex.printStackTrace();
         }
-    }
-    public static void main(String[] args)
-    {
-        new CalculatorServer();
     }
 }
